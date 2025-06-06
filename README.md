@@ -1,79 +1,60 @@
-# AICITY2023_Track5
-This repository is the implementation of the solution for the AICITY2024 Track5 challenge - Detecting Violation of Helmet Rule for Motorcyclists.
 
-![framework](./static/system_architecture_vec.svg)
-
-# About us:
-- Team name: Helios
-- Team members:
-  - [Vo Anh Hao](https://www.linkedin.com/in/haovo0602/)
-  - [Tran Sieu](https://www.linkedin.com/in/sieutran102)
-  - [Nguyen Minh Duc](https://www.linkedin.com/in/nguyễn-minh-đức-b5359124b)
-
-# Public Leaderboard
-| Rank | Team ID | Team Name    | Score  |
-|------|---------|--------------|--------|
-| 1    | 99      | **Helios (Our)**       | **0.4860** |
-| 2    | 76      | CMSR_PANDA   | 0.4824 |
-| 3    | 9       | VNPT AI      | 0.4792 |
-| 4    | 155     | TeleAI       | 0.4675 |
-| 5    | 5       | SKKU-AutoLab | 0.4644 |
-
-
-# Inference
-Setup environment:
-```
-cd sources/inference
-docker build -t helios:latest .
-cd ../../
-```
-
-Run docker:
-```
-docker run -v /path/to/data:/path/to/data -v /path/to/repo:/target/path --gpus all -it helios:latest bash
-cd /target/path
-```
-
-Dowload models, [here](https://drive.google.com/drive/folders/1qHaUTpaTk7PwzpgdZ-NvgKfzeal01Va9?usp=sharing). Then place them in `sources/inference/weights` folder.
-
-Run inference on test set:
-```
-bash scripts/inference.sh
-```
-Note that:
-- `--batch_size` is the number of images to inference at the same time.
-- `--checkpoint_path` is the path to the checkpoint file.
-- `--config_path` is the path to the configuration file.
-- `--test_path` is the path to the test set.
-
-# Training
 This is instruction to train the model.
 
 ## Prepare dataset
-Dowload training dataset from website of [aicitychallenge](https://www.aicitychallenge.org/2024-data-and-evaluation/). Unzip and place the folder `aicity2024_track5_train` in `data` folder. The structure of the folder should be like this:
+Structure of the folder should be like this:
 ```
-data
-└── aicity2024_track5_train
-    ├── videos
-    │   ├── 001.mp4
-    │   ├── 002.mp4
-    │   └── ...
-    ├── gt.txt
-```
-
-After that, run the following command to prepare the dataset:
-```
-bash scripts/convert.sh
+AICITY2025_Track4
+ └── data
+    └── Aicity2025
+        ├── train_img
+        │   ├── camera3_A_0.png
+        │   ├── camera3_A_1.png
+        │   └── ...
+        ├── test_img
+        ├── train.json
+        ├── test.json
+  └── scripts
+  └── sources
+  ...
 ```
 
 ## Train
 Firstly, dowload pre-trained models [here](https://drive.google.com/file/d/1ffDz9lGNAjEF7iXzINZezZ4alx6S0KcO/view?usp=drive_link), then place it in folder `sources/Co-DETR/models`.
+```
+gdown --id 1ffDz9lGNAjEF7iXzINZezZ4alx6S0KcO
+```
+
 To start the training process, run:
 ```
 cd sources/Co-DETR
 docker compose up --build -d
 ```
-Then we use checkpoints name `epoch_10.pth` and `epoch_15.pth` for testing.
+
+Đến đây là xong. Train 16 epochs và nó tự lưu lại mỗi epoch ở thư mục helios (theo dõi tiến trình training).
+
+
+## 📁 `Co-DETR/helios-config` Configuration Folder
+
+Code CO-Detr chỉ tập trung vào folder này thôi.
+
+### 🔧 Main Config File
+- `co_dino_5scale_swin_large_16e_o365tococo.py`:  
+  This is the **main config file** for training Co-DETR.
+  It includes model architecture, optimizer, training schedule, and references the dataset config.
+
+### 📂 Dataset Config File
+- `coco_detection.py`:  
+  Sets up the **dataset paths and format** (COCO-style).  
+  Used by the main config to load training/validation data.
+
+---
+
+> ✅ Only these two files are modified for Co-DETR:  
+> - `co_dino_5scale_swin_large_16e_o365tococo.py`  
+> - `coco_detection.py`  
+>  
+> All other files remain unchanged.
 
 # Acknowledgements
 [Co-DETR](https://github.com/Sense-X/Co-DETR) The base code for training and it is strong for object detection task.
