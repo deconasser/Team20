@@ -31,5 +31,30 @@ cd sources/Co-DETR
 docker compose up --build -d
 ```
 
+Đến đây là xong. Train 16 epochs và nó tự lưu lại mỗi epoch ở thư mục helios (theo dõi tiến trình training).
+
+
+## 📁 `Co-DETR/helios-config` Configuration Folder
+
+Code CO-Detr chỉ tập trung vào folder này thôi.
+
+### 🔧 Main Config File
+- `co_dino_5scale_swin_large_16e_o365tococo.py`:  
+  This is the **main config file** for training Co-DETR.
+  It includes model architecture, optimizer, training schedule, and references the dataset config.
+
+### 📂 Dataset Config File
+- `coco_detection.py`:  
+  Sets up the **dataset paths and format** (COCO-style).  
+  Used by the main config to load training/validation data.
+
+---
+
+> ✅ Only these two files are modified for Co-DETR:  
+> - `co_dino_5scale_swin_large_16e_o365tococo.py`  
+> - `coco_detection.py`  
+>  
+> All other files remain unchanged.
+
 # Acknowledgements
 [Co-DETR](https://github.com/Sense-X/Co-DETR) The base code for training and it is strong for object detection task.
