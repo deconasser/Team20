@@ -56,5 +56,10 @@ Code CO-Detr chỉ tập trung vào folder này thôi.
 >  
 > All other files remain unchanged.
 
+
+All Logs and checkpoints are saved in 
+```
+sources/Co-DETR/helios
+```
 # Acknowledgements
 [Co-DETR](https://github.com/Sense-X/Co-DETR) The base code for training and it is strong for object detection task.
