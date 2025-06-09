@@ -1,0 +1,24 @@
+# Wheel links
+-f https://download.pytorch.org/whl/torch_stable.html
+-f https://download.openmmlab.com/mmcv/dist/cu113/torch1.11.0/index.html
+
+# Core libraries
+torch==1.11.0+cu113
+torchvision==0.12.0+cu113
+mmcv-full==1.5.0
+
+# Utilities & models
+terminaltables==3.1.10
+pycocotools==2.0.7
+fairscale==0.4.13
+timm==0.9.16
+openmim
+
+# Formatter
+yapf==0.40.1
+
+# Scientific & others
+scipy==1.10.1
+python-magic
+ensemble_boxes
+filterpy
